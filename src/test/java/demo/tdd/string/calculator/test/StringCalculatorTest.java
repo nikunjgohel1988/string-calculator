@@ -56,4 +56,13 @@ public class StringCalculatorTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void test_newline_separator() {
+		String input = "1\n2,3";
+		int expected = 6;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
 }
