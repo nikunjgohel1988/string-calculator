@@ -8,7 +8,21 @@ public class StringCalculator {
 		if (numbers.isEmpty()) {
 			return 0;
 		}
-		String[] numberArray = numbers.split(NUM_SEPARATOR);
+
+		String[] numberArray;
+
+		if (numbers.startsWith("//")) {
+			int startIndex = numbers.indexOf("//") + 2;
+			int newLineIndex = numbers.indexOf("\n", startIndex);
+			String separators = numbers.substring(startIndex, newLineIndex);
+
+			numbers = numbers.substring(newLineIndex + 1);
+			
+			numberArray = numbers.split(separators);
+
+		} else {
+			numberArray = numbers.split(NUM_SEPARATOR);
+		}
 
 		int sum = 0;
 
