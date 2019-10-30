@@ -65,4 +65,14 @@ public class StringCalculatorTest {
 
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void test_custom_separators() {
+		String input = "//;\n1;2";
+		int expected = 3;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
 }
