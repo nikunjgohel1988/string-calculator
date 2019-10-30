@@ -2,7 +2,7 @@ package demo.tdd.string.calculator;
 
 public class StringCalculator {
 
-	private static String NUM_SEPARATOR = ",";
+	private static String NUM_SEPARATOR = "[\\n,]";
 
 	public int add(String numbers) {
 		if (numbers.isEmpty()) {
