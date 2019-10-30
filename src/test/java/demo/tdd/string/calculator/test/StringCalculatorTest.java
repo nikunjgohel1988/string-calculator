@@ -46,4 +46,14 @@ public class StringCalculatorTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void test_arbitrary_number_size() {
+		String input = "1,2,3,4,5,6,7,8,9";
+		int expected = 45;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
+
 }
