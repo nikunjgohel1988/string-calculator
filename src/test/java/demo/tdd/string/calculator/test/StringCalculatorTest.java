@@ -13,9 +13,9 @@ import demo.tdd.string.calculator.StringCalculator;
 public class StringCalculatorTest {
 
 	private StringCalculator stringCalculator;
-	
+
 	@Rule
-    public ExpectedException thrown= ExpectedException.none();
+	public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,7 +28,7 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void test_simple_calculator() {
+	public void test_simple_calculator() throws Exception {
 		String input = "";
 		int expected = 0;
 
@@ -52,7 +52,7 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void test_arbitrary_number_size() {
+	public void test_arbitrary_number_size() throws Exception {
 		String input = "1,2,3,4,5,6,7,8,9";
 		int expected = 45;
 
@@ -62,7 +62,7 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void test_newline_separator() {
+	public void test_newline_separator() throws Exception {
 		String input = "1\n2,3";
 		int expected = 6;
 
@@ -72,7 +72,7 @@ public class StringCalculatorTest {
 	}
 
 	@Test
-	public void test_custom_separators() {
+	public void test_custom_separators() throws Exception {
 		String input = "//;\n1;2";
 		int expected = 3;
 
@@ -80,16 +80,16 @@ public class StringCalculatorTest {
 
 		assertEquals(expected, actual);
 	}
-	
+
 	@Test
-	public void test_negative_numbers_throwing_error() {
-		
+	public void test_negative_numbers_throwing_error() throws Exception {
+
 		String expectedExceptionMessage = "negatives not allowed: -2 -3";
 		thrown.expect(Exception.class);
 		thrown.expectMessage(expectedExceptionMessage);
-		
-		String input = "1,-2,-3";		
 
-		int actual = stringCalculator.add(input);
+		String input = "1,-2,-3";
+
+		stringCalculator.add(input);
 	}
 }

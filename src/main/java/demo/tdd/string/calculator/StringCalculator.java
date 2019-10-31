@@ -4,7 +4,11 @@ public class StringCalculator {
 
 	private static String NUM_SEPARATOR = "[\\n,]";
 
-	public int add(String numbers) {
+	public int add(String numbers) throws Exception {
+
+		boolean negNumbersPresent = false;
+		StringBuilder sb = null;
+
 		if (numbers.isEmpty()) {
 			return 0;
 		}
@@ -17,7 +21,7 @@ public class StringCalculator {
 			String separators = numbers.substring(startIndex, newLineIndex);
 
 			numbers = numbers.substring(newLineIndex + 1);
-			
+
 			numberArray = numbers.split(separators);
 
 		} else {
@@ -27,7 +31,24 @@ public class StringCalculator {
 		int sum = 0;
 
 		for (String number : numberArray) {
-			sum = sum + Integer.parseInt(number);
+			int curNum = Integer.parseInt(number);
+
+			if (curNum < 0) {
+				negNumbersPresent = true;
+				if (sb == null) {
+					sb = new StringBuilder("negatives not allowed:");
+				}
+				sb.append(" " + curNum);
+			}
+
+			if (negNumbersPresent)
+				continue;
+
+			sum = sum + curNum;
+		}
+
+		if (negNumbersPresent) {
+			throw new Exception(sb.toString());
 		}
 
 		return sum;
