@@ -33,6 +33,10 @@ public class StringCalculator {
 		for (String number : numberArray) {
 			int curNum = Integer.parseInt(number);
 
+			if (curNum > 1000) {
+				continue;
+			}
+
 			if (curNum < 0) {
 				negNumbersPresent = true;
 				if (sb == null) {
