@@ -112,4 +112,14 @@ public class StringCalculatorTest {
 
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void test_multiple_single_length_separators() throws Exception {
+		String input = "//[*][%]\n1*2%3";
+		int expected = 6;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
 }
