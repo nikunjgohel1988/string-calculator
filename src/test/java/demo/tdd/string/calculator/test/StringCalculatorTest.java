@@ -4,13 +4,18 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import demo.tdd.string.calculator.StringCalculator;
 
 public class StringCalculatorTest {
 
 	private StringCalculator stringCalculator;
+	
+	@Rule
+    public ExpectedException thrown= ExpectedException.none();
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,5 +79,17 @@ public class StringCalculatorTest {
 		int actual = stringCalculator.add(input);
 
 		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void test_negative_numbers_throwing_error() {
+		
+		String expectedExceptionMessage = "negatives not allowed: -2 -3";
+		thrown.expect(Exception.class);
+		thrown.expectMessage(expectedExceptionMessage);
+		
+		String input = "1,-2,-3";		
+
+		int actual = stringCalculator.add(input);
 	}
 }
