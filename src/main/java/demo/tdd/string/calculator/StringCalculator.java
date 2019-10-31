@@ -29,30 +29,10 @@ public class StringCalculator {
 
 		if (numbers.startsWith(CUSTOM_SEPARATORS_START_PATTERN)) {
 
-			if (numSeperators == null) {
-				numSeperators = new StringBuilder();
-			}
-
 			int startIndex = numbers.indexOf(CUSTOM_SEPARATORS_START_PATTERN) + 2;
 			int newLineIndex = numbers.indexOf(CUSTOM_SEPARATORS_END_PATTERN, startIndex);
 
-			String numSeparatorsStr = numbers.substring(startIndex, newLineIndex);
-
-			if (numSeparatorsStr.charAt(0) == '[') {
-				Matcher m = CUSTOM_SEPARATOR_MATCH_PATTERN.matcher(numSeparatorsStr);
-				if (m.find()) {
-					String separator = m.group(1);
-					StringBuilder separatorPattern = new StringBuilder();
-					for (char ch : separator.toCharArray()) {
-						separatorPattern.append("\\");
-						separatorPattern.append(ch);
-					}
-
-					numSeperators.append(separatorPattern);
-				}
-			} else {
-				numSeperators.append(numSeparatorsStr);
-			}
+			buildNumberSeparatorsSplitPattern(numbers.substring(startIndex, newLineIndex));
 
 			numbers = numbers.substring(newLineIndex + 1);
 
@@ -85,6 +65,28 @@ public class StringCalculator {
 		}
 
 		return sum;
+	}
+
+	private void buildNumberSeparatorsSplitPattern(String numSeparatorsStr) {
+		if (numSeperators == null) {
+			numSeperators = new StringBuilder();
+		}
+
+		if (numSeparatorsStr.charAt(0) == '[') {
+			Matcher m = CUSTOM_SEPARATOR_MATCH_PATTERN.matcher(numSeparatorsStr);
+			if (m.find()) {
+				String separator = m.group(1);
+				StringBuilder separatorPattern = new StringBuilder();
+				for (char ch : separator.toCharArray()) {
+					separatorPattern.append("\\");
+					separatorPattern.append(ch);
+				}
+
+				numSeperators.append(separatorPattern);
+			}
+		} else {
+			numSeperators.append(numSeparatorsStr);
+		}
 	}
 
 	private boolean shouldIgnoreNumber(int num) {
