@@ -14,6 +14,14 @@ public class StringCalculator {
 	private static final Pattern CUSTOM_SEPARATOR_MATCH_PATTERN = Pattern.compile("\\[(.*?)\\]");
 
 	private static final String SPACE = " ";
+	private static final String PIPE = "|";
+	private static final String ESCAPE_CHAR = "\\";
+	private static final String OPENING_BRACE = "(";
+	private static final String CLOSING_BRACE = ")";
+	private static final String OPENING_BRACKET = "[";
+	private static final String CLOSING_BRACKET = "]";
+
+	private static final String REGEX_META_CHARS = ".$|()[{^?*+\\";
 
 	private String[] numberArray;
 	private StringBuilder numSeperators;
@@ -72,7 +80,7 @@ public class StringCalculator {
 			numSeperators = new StringBuilder();
 		}
 
-		if (numSeparatorsStr.charAt(0) == '[') {
+		if (numSeparatorsStr.startsWith(OPENING_BRACKET)) {
 			Matcher m = CUSTOM_SEPARATOR_MATCH_PATTERN.matcher(numSeparatorsStr);
 
 			int matchCount = m.groupCount();
@@ -80,7 +88,7 @@ public class StringCalculator {
 			StringBuilder separatorPattern = new StringBuilder();
 
 			if (matchCount > 1) {
-				separatorPattern.append("[");
+				separatorPattern.append(OPENING_BRACKET);
 			}
 
 			boolean firstMatch = true;
@@ -88,24 +96,24 @@ public class StringCalculator {
 			while (m.find()) {
 
 				if (!firstMatch) {
-					separatorPattern.append("|");
+					separatorPattern.append(PIPE);
 				}
 
-				separatorPattern.append("(");
+				separatorPattern.append(OPENING_BRACE);
 				String separator = m.group(1);
 				for (char ch : separator.toCharArray()) {
 					if (isMetaChar(ch)) {
-						separatorPattern.append("\\");
+						separatorPattern.append(ESCAPE_CHAR);
 					}
 					separatorPattern.append(ch);
 				}
-				separatorPattern.append(")");
+				separatorPattern.append(CLOSING_BRACE);
 
 				firstMatch = false;
 			}
 
 			if (matchCount > 1) {
-				separatorPattern.append("]");
+				separatorPattern.append(CLOSING_BRACKET);
 			}
 			numSeperators.append(separatorPattern);
 
@@ -115,7 +123,7 @@ public class StringCalculator {
 	}
 
 	private boolean isMetaChar(char ch) {
-		if (".$|()[{^?*+\\".indexOf(ch) != -1) {
+		if (REGEX_META_CHARS.indexOf(ch) != -1) {
 			return true;
 		} else {
 			return false;
