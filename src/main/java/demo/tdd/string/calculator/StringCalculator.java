@@ -1,5 +1,8 @@
 package demo.tdd.string.calculator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StringCalculator {
 
 	private static final String DEFAULT_NUM_SEPARATORS = "[\\n|,]";
@@ -7,6 +10,8 @@ public class StringCalculator {
 
 	private static final String CUSTOM_SEPARATORS_START_PATTERN = "//";
 	private static final String CUSTOM_SEPARATORS_END_PATTERN = "\n";
+
+	private static final Pattern CUSTOM_SEPARATOR_MATCH_PATTERN = Pattern.compile("\\[(.*?)\\]");
 
 	private static final String SPACE = " ";
 
@@ -31,7 +36,23 @@ public class StringCalculator {
 			int startIndex = numbers.indexOf(CUSTOM_SEPARATORS_START_PATTERN) + 2;
 			int newLineIndex = numbers.indexOf(CUSTOM_SEPARATORS_END_PATTERN, startIndex);
 
-			numSeperators.append(numbers.substring(startIndex, newLineIndex));
+			String numSeparatorsStr = numbers.substring(startIndex, newLineIndex);
+
+			if (numSeparatorsStr.charAt(0) == '[') {
+				Matcher m = CUSTOM_SEPARATOR_MATCH_PATTERN.matcher(numSeparatorsStr);
+				if (m.find()) {
+					String separator = m.group(1);
+					StringBuilder separatorPattern = new StringBuilder();
+					for (char ch : separator.toCharArray()) {
+						separatorPattern.append("\\");
+						separatorPattern.append(ch);
+					}
+
+					numSeperators.append(separatorPattern);
+				}
+			} else {
+				numSeperators.append(numSeparatorsStr);
+			}
 
 			numbers = numbers.substring(newLineIndex + 1);
 
