@@ -92,4 +92,14 @@ public class StringCalculatorTest {
 
 		stringCalculator.add(input);
 	}
+
+	@Test
+	public void test_ignore_numbers_bigger_than_thousand() throws Exception {
+		String input = "1001,2";
+		int expected = 2;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
 }
