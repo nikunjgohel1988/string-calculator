@@ -94,7 +94,9 @@ public class StringCalculator {
 				separatorPattern.append("(");
 				String separator = m.group(1);
 				for (char ch : separator.toCharArray()) {
-					separatorPattern.append("\\");
+					if (isMetaChar(ch)) {
+						separatorPattern.append("\\");
+					}
 					separatorPattern.append(ch);
 				}
 				separatorPattern.append(")");
@@ -109,6 +111,14 @@ public class StringCalculator {
 
 		} else {
 			numSeperators.append(numSeparatorsStr);
+		}
+	}
+
+	private boolean isMetaChar(char ch) {
+		if (".$|()[{^?*+\\".indexOf(ch) != -1) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
