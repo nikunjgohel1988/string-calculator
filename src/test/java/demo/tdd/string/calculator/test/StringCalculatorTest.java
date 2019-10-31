@@ -122,4 +122,14 @@ public class StringCalculatorTest {
 
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void test_multiple_longer_length_separators() throws Exception {
+		String input = "//[foo][bar]\n1foo2bar3";
+		int expected = 6;
+
+		int actual = stringCalculator.add(input);
+
+		assertEquals(expected, actual);
+	}
 }
