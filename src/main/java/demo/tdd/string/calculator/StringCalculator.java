@@ -74,16 +74,39 @@ public class StringCalculator {
 
 		if (numSeparatorsStr.charAt(0) == '[') {
 			Matcher m = CUSTOM_SEPARATOR_MATCH_PATTERN.matcher(numSeparatorsStr);
-			if (m.find()) {
+
+			int matchCount = m.groupCount();
+
+			StringBuilder separatorPattern = new StringBuilder();
+
+			if (matchCount > 1) {
+				separatorPattern.append("[");
+			}
+
+			boolean firstMatch = true;
+
+			while (m.find()) {
+
+				if (!firstMatch) {
+					separatorPattern.append("|");
+				}
+
+				separatorPattern.append("(");
 				String separator = m.group(1);
-				StringBuilder separatorPattern = new StringBuilder();
 				for (char ch : separator.toCharArray()) {
 					separatorPattern.append("\\");
 					separatorPattern.append(ch);
 				}
+				separatorPattern.append(")");
 
-				numSeperators.append(separatorPattern);
+				firstMatch = false;
 			}
+
+			if (matchCount > 1) {
+				separatorPattern.append("]");
+			}
+			numSeperators.append(separatorPattern);
+
 		} else {
 			numSeperators.append(numSeparatorsStr);
 		}
